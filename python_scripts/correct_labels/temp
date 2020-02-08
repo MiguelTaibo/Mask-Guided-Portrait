@@ -1,0 +1,10 @@
+import python_scripts.correct_labels.getCsv as sc
+import os
+sc.postColour()
+os.system('python python_scripts/colorFolder.py -s datasets/exp2/aExp/ > correctLabel.txt')
+
+
+import python_scripts.correct_labels.getCsv as sc
+sc.filterLabels('preanalisis')
+sc.preColour()
+os.system('python python_scripts/colorFolder.py -s datasets/exp2/bExp/')

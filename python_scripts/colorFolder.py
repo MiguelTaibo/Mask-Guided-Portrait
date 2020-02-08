@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 #Array de transformacion: el indice es el valor de source y el valor es el color en el destino
 colores =  [
     [0,0,0,255],        # 0: Fondo, negro
-    [100,100,100,255],  # 1: Cara, gris
+    [150,150,150,255],  # 1: Cara, gris
     [255,255,0,255],    # 2: Ceja derecha, amarilla
     [0,100,0,255],      # 3: Ceja izquierda, verde oscuro
     [0, 255 ,255,255],  # 4: Ojo  derecho, azul claro
@@ -21,6 +21,7 @@ colores =  [
     [0,0,255,255],      # 8: Interior boca, Azul
     [0,255,0,255],      # 9: Labio inferior, verde claro
     [255,255,255,255],  # 10: Pelo, blanco
+    [50,50,50,255], # 11: Por rellenar, Gris
 ]
 
 parser = ArgumentParser(description='%(prog)s is an ArgumentParser demo')

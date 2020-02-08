@@ -8,11 +8,12 @@ import math
 
 csv_columns = ['filename', 'box', 'confidence', 'keypoints']
 blanco = [255,255,255]
-source = 'datasets/Miguel/'
+source = 'datasets/exp2/'
 
 
 def getCsv():
-    with open(source + 'Miguel.csv', mode='w') as csv_file:
+    with open(source + 'Cris.csv', mode='w') as csv_file:
+
         #Take data
         detector = MTCNN()
         dic = []
@@ -26,6 +27,7 @@ def getCsv():
                 print(filename)
             except:
                 print(detector.detect_faces(img))
+
         #Write data on csv file
         writer = csv.DictWriter(csv_file, fieldnames = csv_columns)
         writer.writeheader()
@@ -72,20 +74,20 @@ def seePhotoWithKeypoints(row, s):
             except:
                 continue
 
-def makePhoto(source, row):
+def makePhoto(source, row, n):
     img = Image.open(source+ row['filename'])
     a = np.array(img)
-    square = getBox(row)
+    square = getBox(row, n)
     square = checkBorder(a, square)
     [x_i, x_f, y_i, y_f] = square
     print(square)
     img = Image.fromarray(a[x_i:x_f,y_i:y_f]).resize((256,256))
     return img
 
-def getBox(row):
+def getBox(row, n):
     box = row['box'][1:len(row['box']) - 1].split(',')
     [y_b, x_b, h, w] = [int(i) for i in box]
-    y_c, x_c, n = int(y_b + h / 2), int(x_b + w / 2), int(math.ceil(1.3 * max([h, w]) / 256.0))
+    y_c, x_c = int(y_b + h / 2), int(x_b + w / 2)
     [y_i, y_f, x_i, x_f] = [int(y_c - n * 128), int(y_c + n * 128), int(x_c - n * 128), int(x_c + n * 128)]
     return [x_i,x_f,y_i,y_f]
 
@@ -122,13 +124,40 @@ def checkBorder(a, square):
 #     #anchura:  16<x<256-16 ::: 16=256/16
 #     assert y_i + h / 16 < y_r_e < y_f - w * 3 / 32, 'altura de ojo derech'
 
+# def resN(reader):
+#     n = 0
+#     for row in reader:
+#         try:
+#             box = row['box'][1:len(row['box']) - 1].split(',')
+#             [x_b, y_b, h, w] = [int(i) for i in box]
+#             n_temp = int(math.ceil(1.2 * max([h, w]) / 256.0))
+#             if n_temp > n:
+#                 n = n_temp
+#                 print(n)
+#         except:
+#             print('algo')
+#     return n
+
 def makePhotos():
-    with open(source + 'Miguel.csv', mode='r') as csv_file:
+    with open(source + 'Cris.csv', mode='r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=csv_columns)
+        n = 0
+        for row in reader:
+            try:
+                box = row['box'][1:len(row['box']) - 1].split(',')
+                [x_b, y_b, h, w] = [int(i) for i in box]
+                n_temp = int(math.ceil(1.2 * max([h, w]) / 256.0))
+                if n_temp > n:
+                    n = n_temp
+                    print(n)
+            except:
+                print('otro')
+
+    with open(source + 'Cris.csv', mode='r') as csv_file:
         reader = csv.DictReader(csv_file, fieldnames=csv_columns)
         for row in reader:
             try:
-            # print(row)
-                img = makePhoto(source, row)
+                img = makePhoto(source, row, n)
                 img.save(source +'edit_img/'+ row['filename'])
             except:
                 print('algo')

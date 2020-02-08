@@ -25,8 +25,8 @@ colores =  [
 
 parser = ArgumentParser(description='%(prog)s is an ArgumentParser demo')
 
-parser.add_argument('-s', help='imagen que se transformará')
-parser.add_argument('-f', help='dirección destino')
+parser.add_argument('-s', help='imagen que se transformara')
+parser.add_argument('-f', help='direccion destino')
 parser.add_argument('-t', default='False', help='si transformamos o destransformamos', action='store_true')
 parser.add_argument('-n', default='', help='nombre del experimento')
 parser.add_argument('-r', default='False', help='para borrar una transformacion', action='store_true')
